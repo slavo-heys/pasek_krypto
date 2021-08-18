@@ -15,3 +15,7 @@ Po odczytaniu trzech wyników program koloryzuje czcionkę ceny,
 kolor zielony - wzrost ceny
 kolor czerwony - spadek ceny
 kolor biały - cena niezmienna.
+***************************************************************
+Aktualizacja 18.08.2021
+
+Po dłuższym działaniu program zawieszał funkcję exit - bląd naprawiono
