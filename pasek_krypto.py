@@ -47,6 +47,9 @@ class Application:
         self.rama.configure(background="black")
         self.rama.pack(fill="both", expand="yes")
 
+        self.button1 = tk.Button(self.rama, text=" Exit ", font=("Arial", 8), bg=self.white, fg=self.black, command=self.zamkniecie_programu)
+        self.button1.grid(row=0, column=7)
+
         self.linia1 = tk.Label(self.rama, text="BTC", font=(self.krojCzcionki, self.rozmiarCzcionki), bg=self.black, fg=self.white)
         self.linia1.grid(row=0, column=0)        
 
@@ -65,11 +68,6 @@ class Application:
         self.linia6=tk.Label(self.rama, font=("Arial", 8), bg=self.black, fg=self.white)
         self.linia6.grid(row=0, column=6)
 
-        self.button1 = tk.Button(self.rama, text=" Exit ", font=("Arial", 8), bg=self.white, fg=self.black, command=self.zamkniecie_programu)
-        self.button1.grid(row=0, column=7)        
-
-        
-
         # wywołanie definicji
         self.binance_krypto()
         self.odczyt_listy()
@@ -80,7 +78,7 @@ class Application:
 
     #definicje
     def zamkniecie_programu(self):
-        exit()
+        self.window.destroy()
 
     def binance_krypto(self):
         self.readBTC = requests.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
