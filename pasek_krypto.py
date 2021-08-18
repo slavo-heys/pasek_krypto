@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 """
 Created on Fri Aug 13 11:08:06 2021
@@ -28,7 +27,8 @@ class Application:
         self.rekord2 = tk.StringVar()
         self.data = tk.StringVar()
         self.godzina = tk.StringVar()
-
+        self.wpisy = tk.StringVar()
+        
         # czcionka
         self.krojCzcionki = "Comic Sans"  # Times New Roman, Tahoma, Comic Sans
         self.rozmiarCzcionki = 15
@@ -111,13 +111,17 @@ class Application:
                 self.linia2.configure(text=self.lista[self.ostatniRekord], bg=self.black, fg=self.red)
             else:
                 self.linia2.configure(text=self.lista[self.ostatniRekord], bg=self.black, fg=self.white)
+
+        # usuwanie listy po 20 wpisach
+        self.wpisy = len(self.lista)-5
+        if len(self.lista) >= 11:
+            self.lista[0:self.wpisy]=[]
         
         self.window.after(5000, self.odczyt_listy)
 
     def odczyt_czasu(self):
         self.linia5.configure(text=strftime("%d-%m-%Y"))
         self.linia6.configure(text=strftime("%H:%M:%S"))
-
         self.window.after(5000, self.odczyt_czasu)
     
     
