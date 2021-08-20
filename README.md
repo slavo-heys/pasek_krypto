@@ -27,3 +27,6 @@ Zmiana całkowita kodu, dodano do wyświetlania cenę bid i ask. Zmieniono
 link dostępowy api. Z prawej strony okna zostawiono miejsce na przycisk
 "ustawienia". Następna aktualizacja przewidziana na początek sierpnia
 tego roku.
+
+Wydana nowa wersja 1.3 dla Linux. Program w fazie testów. Dodano odczyt 
+cen bid i ask z giełdy BitBay. 
