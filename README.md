@@ -19,3 +19,11 @@ kolor biały - cena niezmienna.
 Aktualizacja 18.08.2021
 
 Po dłuższym działaniu program zawieszał funkcję exit - bląd naprawiono
+
+****************************************************************
+Aktualizacja 20.08.2021
+
+Zmiana całkowita kodu, dodano do wyświetlania cenę bid i ask. Zmieniono
+link dostępowy api. Z prawej strony okna zostawiono miejsce na przycisk
+"ustawienia". Następna aktualizacja przewidziana na początek sierpnia
+tego roku.
