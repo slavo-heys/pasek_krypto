@@ -40,6 +40,12 @@ class Program:
         self.poloX = tk.StringVar()
         self.poloY = tk.StringVar()
         self.geoOkna = tk.StringVar()
+        self.jakaGielda= tk.StringVar()
+        self.jakieOkno = tk.StringVar()
+        self.jakaWalutaBinance = tk.StringVar()
+        
+        self.dic = dict()
+        self.list = []
         
 # Otwarcie i wybór okna okna
         conn = sqlite3.connect('program.db')
@@ -207,16 +213,15 @@ class Program:
         
     def setting(self):
         self.top = tk.Toplevel()
-        self.top.geometry("600x600+100+100")
+        self.top.geometry("520x300+100+100")
         self.top.configure(background="black")
         self.top.title("Setting")
         
-        self.linia_geo = tk.Label(self.top, text = "Wybież położenie okna:")
-        self.linia_geo.configure(font = (self.krojCzcionki, self.rozmiarCzcionki))
-        self.linia_geo.configure(bg = self.black, fg = self.jNiebieski)
-        self.linia_geo.place(x = 10, y = 10)
+        self.linia_1 = tk.Label(self.top, text = "Wybież położenie okna:")
+        self.linia_1.configure(font = (self.krojCzcionki, self.rozmiarCzcionki), bg = self.black, fg = self.jNiebieski)
+        self.linia_1.place(x = 10, y = 11)
         
-        self.jakieOkno = tk.StringVar()
+        
         
         self.combo = ttk.Combobox(self.top, textvariable = self.jakieOkno)
         self.combo['values'] = ('lewy górny róg',
@@ -226,16 +231,65 @@ class Program:
                                 'centralnie srodek')
         self.combo.current(0)
         #self.combobox.bind("<<ComboboxSelected>>", self.zapisz ustawienia)
-        self.combo.place(x = 200, y = 11)
+        self.combo.place(x = 200, y = 12)
         
-        self.button_zapisz = tk.Button(self.top, text = "zapisz ustawienia")
-        self.button_zapisz.configure(command = self.zapisz_ustawienia)
-        self.button_zapisz.place(x = 400, y = 11)
+        #self.button_zapisz = tk.Button(self.top, text = "zapisz ustawienia")
+        #self.button_zapisz.configure(command = self.zapisz_ustawienia)
+        #self.button_zapisz.place(x = 400, y = 11)
         
-        self.top.mainloop()
+        self.linia_2 = tk.Label(self.top, text = "Wybierz giełdę:")
+        self.linia_2.configure(font = (self.krojCzcionki, self.rozmiarCzcionki), bg = self.black, fg = self.jNiebieski)
+        self.linia_2.place(x= 10, y = 40)
+        
+        
+        
+        self.com = ttk.Combobox(self.top, textvariable = self.jakaGielda)
+        self.com['values'] = ('BINANCE',
+                              'BITBAY')
+        self.com.current(0)
+        self.com.place(x= 200, y = 42)
+        
+        self.linia_3 = tk.Label(self.top, text = "Wybież kryptowalutę:")
+        self.linia_3.configure(font = (self.krojCzcionki, self.rozmiarCzcionki), bg = self.black, fg = self.jNiebieski)
+        self.linia_3.place(x = 10, y = 72)
+        
+        
+
+        self.readBinance = requests.get("https://fapi.binance.com/fapi/v1/ticker/bookTicker")
+        self.taskBinance = self.readBinance.json()
+        self.dic = (self.taskBinance)
+        
+        self.yBinance = len(self.dic)
+
+
+        for x in range(0, self.yBinance):
+            self.idBinance = (x)
+            self.symbolBinance = self.dic[x]["symbol"]
+            
+            self.danaBinance = [self.idBinance,self.symbolBinance]
+            self.list.append(self.danaBinance)
+            
+        
+            
+        self.combo3 = ttk.Combobox(self.top, textvariable = self.jakaWalutaBinance)
+        self.combo3['values'] = (self.list)
+        self.combo3.current(0)
+        self.combo3.place(x= 200, y = 73)
+        
+        self.buttonZapisz = tk.Button(self.top, text = "zapisz ustawienia")
+        self.buttonZapisz.configure(command = self.zapisz_ustawienia)
+        self.buttonZapisz.place(x = 400, y = 71)
+            
+        
+                                   
+        #self.top.mainloop() 
+        
         
     def zapisz_ustawienia(self):
         self.wynikOkno = self.jakieOkno.get()
+        self.wynikGielda = self.jakaGielda.get()
+        self.wynikWaluta = self.jakaWalutaBinance.get()
+        
         if self.wynikOkno == 'lewy górny róg':
             conn = sqlite3.connect('program.db')
             c = conn.cursor()
@@ -250,18 +304,18 @@ class Program:
             conn.commit()
             conn.close()
             
-            self.button_zapisz.destroy()
+            self.buttonZapisz.destroy()
             self.linia_info = tk.Label(self.top, text = "Ustawienia zapisane!")
             self.linia_info.configure(font=("Arial", 7), bg = "black", fg = "red")
-            self.linia_info.place(x = 5, y= 400)
+            self.linia_info.place(x = 5, y= 200)
             
             self.linia_info1 = tk.Label(self.top, text = "Musisz zamknąć program i otworzyć ponownie.")
             self.linia_info1.configure(font=("Arial", 7), bg = "black", fg = "skyblue")
-            self.linia_info1.place(x = 5, y= 415)
+            self.linia_info1.place(x = 5, y= 215)
             
             self.button_zamknij = tk.Button(self.top, text = "zamnij program")
             self.button_zamknij.configure(command = self.exit_program)
-            self.button_zamknij.place(x = 250, y = 405)
+            self.button_zamknij.place(x = 250, y = 205)
             
         elif self.wynikOkno == 'prawy górny róg':
             self.width = self.window.winfo_screenwidth()
@@ -279,18 +333,18 @@ class Program:
             conn.commit()
             conn.close()
             
-            self.button_zapisz.destroy()
+            self.buttonZapisz.destroy()
             self.linia_info = tk.Label(self.top, text = "Ustawienia zapisane!")
             self.linia_info.configure(font=("Arial", 7), bg = "black", fg = "red")
-            self.linia_info.place(x = 5, y= 400)
+            self.linia_info.place(x = 5, y= 200)
             
             self.linia_info1 = tk.Label(self.top, text = "Musisz zamknąć program i otworzyć ponownie.")
             self.linia_info1.configure(font=("Arial", 7), bg = "black", fg = "skyblue")
-            self.linia_info1.place(x = 5, y= 415)
+            self.linia_info1.place(x = 5, y= 215)
             
             self.button_zamknij = tk.Button(self.top, text = "zamnij program")
             self.button_zamknij.configure(command = self.exit_program)
-            self.button_zamknij.place(x = 250, y = 405)
+            self.button_zamknij.place(x = 250, y = 205)
             
         elif self.wynikOkno == 'dolny lewy róg':
             self.height = self.window.winfo_screenheight()
@@ -308,18 +362,18 @@ class Program:
             conn.commit()
             conn.close()
             
-            self.button_zapisz.destroy()
+            self.buttonZapisz.destroy()
             self.linia_info = tk.Label(self.top, text = "Ustawienia zapisane!")
             self.linia_info.configure(font=("Arial", 7), bg = "black", fg = "red")
-            self.linia_info.place(x = 5, y= 400)
+            self.linia_info.place(x = 5, y= 200)
             
             self.linia_info1 = tk.Label(self.top, text = "Musisz zamknąć program i otworzyć ponownie.")
             self.linia_info1.configure(font=("Arial", 7), bg = "black", fg = "skyblue")
-            self.linia_info1.place(x = 5, y= 415)
+            self.linia_info1.place(x = 5, y= 215)
             
             self.button_zamknij = tk.Button(self.top, text = "zamnij program")
             self.button_zamknij.configure(command = self.exit_program)
-            self.button_zamknij.place(x = 250, y = 405)
+            self.button_zamknij.place(x = 250, y = 205)
             
         elif self.wynikOkno == 'dolny prawy róg':
             self.width = self.window.winfo_screenwidth()
@@ -339,18 +393,18 @@ class Program:
             conn.commit()
             conn.close()
             
-            self.button_zapisz.destroy()
+            self.buttonZapisz.destroy()
             self.linia_info = tk.Label(self.top, text = "Ustawienia zapisane!")
             self.linia_info.configure(font=("Arial", 7), bg = "black", fg = "red")
-            self.linia_info.place(x = 5, y= 400)
+            self.linia_info.place(x = 5, y= 200)
             
             self.linia_info1 = tk.Label(self.top, text = "Musisz zamknąć program i otworzyć ponownie.")
             self.linia_info1.configure(font=("Arial", 7), bg = "black", fg = "skyblue")
-            self.linia_info1.place(x = 5, y= 415)
+            self.linia_info1.place(x = 5, y= 215)
             
             self.button_zamknij = tk.Button(self.top, text = "zamnij program")
             self.button_zamknij.configure(command = self.exit_program)
-            self.button_zamknij.place(x = 250, y = 405)
+            self.button_zamknij.place(x = 250, y = 205)
             
         else:
             self.width = self.window.winfo_screenwidth()
@@ -370,20 +424,26 @@ class Program:
             conn.commit()
             conn.close()
             
-            self.button_zapisz.destroy()
+            self.buttonZapisz.destroy()
             self.linia_info = tk.Label(self.top, text = "Ustawienia zapisane!")
             self.linia_info.configure(font=("Arial", 7), bg = "black", fg = "red")
-            self.linia_info.place(x = 5, y= 400)
+            self.linia_info.place(x = 5, y= 200)
             
             self.linia_info1 = tk.Label(self.top, text = "Musisz zamknąć program i otworzyć ponownie.")
             self.linia_info1.configure(font=("Arial", 7), bg = "black", fg = "skyblue")
-            self.linia_info1.place(x = 5, y= 415)
+            self.linia_info1.place(x = 5, y= 215)
             
             self.button_zamknij = tk.Button(self.top, text = "zamnij program")
             self.button_zamknij.configure(command = self.exit_program)
-            self.button_zamknij.place(x = 250, y = 405)
+            self.button_zamknij.place(x = 250, y = 205)
             
+    def zapisz_ustawienia_gielda(self):
+        pass
         
-        
+    def zapisz_ustawienia_waluta(self):
+        pass
+    
+    
+        #self.top.mainloop()
         
 prog = Program()

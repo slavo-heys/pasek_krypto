@@ -8,11 +8,8 @@ Created on Fri Aug 19 09:08:06 2021
 @email: ilodz24hd@gmail.com
 """
 
-import json
 import requests
 import tkinter as tk
-from time import strftime
-
 
 class Program:
     def __init__(self):
