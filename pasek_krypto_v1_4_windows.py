@@ -423,19 +423,39 @@ class Program:
                       })
             conn.commit()
             conn.close()
+        
+        # zapis do bazy jaka giełda ma być wywietlana
+        conn = sqlite3.connect('program.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO gielda VALUES(NULL, :n_gieldy)",
+                  {
+                      'n_gieldy': self.wynikGielda
+                 })
+        conn.commit()
+        conn.close()
+        
+        # zapis do bazy jaka waluta ma być wywietlana
+        conn = sqlite3.connect('program.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO pary VALUES(NULL, :para)",
+                  {
+                      'para': self.wynikWaluta
+                  })
+        conn.commit()
+        conn.close()
             
-            self.buttonZapisz.destroy()
-            self.linia_info = tk.Label(self.top, text = "Ustawienia zapisane!")
-            self.linia_info.configure(font=("Arial", 7), bg = "black", fg = "red")
-            self.linia_info.place(x = 5, y= 200)
+        self.buttonZapisz.destroy()
+        self.linia_info = tk.Label(self.top, text = "Ustawienia zapisane!")
+        self.linia_info.configure(font=("Arial", 7), bg = "black", fg = "red")
+        self.linia_info.place(x = 5, y= 200)
             
-            self.linia_info1 = tk.Label(self.top, text = "Musisz zamknąć program i otworzyć ponownie.")
-            self.linia_info1.configure(font=("Arial", 7), bg = "black", fg = "skyblue")
-            self.linia_info1.place(x = 5, y= 215)
+        self.linia_info1 = tk.Label(self.top, text = "Musisz zamknąć program i otworzyć ponownie.")
+        self.linia_info1.configure(font=("Arial", 7), bg = "black", fg = "skyblue")
+        self.linia_info1.place(x = 5, y= 215)
             
-            self.button_zamknij = tk.Button(self.top, text = "zamnij program")
-            self.button_zamknij.configure(command = self.exit_program)
-            self.button_zamknij.place(x = 250, y = 205)
+        self.button_zamknij = tk.Button(self.top, text = "zamnij program")
+        self.button_zamknij.configure(command = self.exit_program)
+        self.button_zamknij.place(x = 250, y = 205)
             
     def zapisz_ustawienia_gielda(self):
         pass
