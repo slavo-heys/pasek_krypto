@@ -43,9 +43,18 @@ class Program:
         self.jakaGielda= tk.StringVar()
         self.jakieOkno = tk.StringVar()
         self.jakaWalutaBinance = tk.StringVar()
+        self.jakaWalutaBitbay = tk.StringVar()
         
         self.dic = dict()
         self.list = []
+        self.listBitbay = [[1, 'BTC-USD'],[2, 'ETH-USD'],[3, 'GAME-USD'],
+                           [4, 'LSK-USD'],[5, 'BAT-USD'],[6, 'BCC-USD'],
+                           [7, 'BOB-USD'],[8, 'BSV-USD'],[9, 'BTG-USD'],
+                           [10, 'DASH-USD'],[11, 'GNT-USD'],[12, 'LTC-USD'],
+                           [13, 'NEU-USD'],[14, 'OMG-USD'],[15, 'PAY-USD'],
+                           [16, 'REPv2-USD'],[17, 'TRX-USD'],[18, 'USDC-USD'],
+                           [19, 'XIN-USD'],[20, 'XLM-USD'],[21, 'XRP-USD'],
+                           [22, 'ZEC-USD'],[23, 'ZRX-USD']]        
         
 # Otwarcie i wybór okna okna
         conn = sqlite3.connect('program.db')
@@ -230,7 +239,6 @@ class Program:
                                 'dolny prawy róg',
                                 'centralnie srodek')
         self.combo.current(0)
-        #self.combobox.bind("<<ComboboxSelected>>", self.zapisz ustawienia)
         self.combo.place(x = 200, y = 12)
         
         #self.button_zapisz = tk.Button(self.top, text = "zapisz ustawienia")
@@ -244,45 +252,15 @@ class Program:
         
         
         self.com = ttk.Combobox(self.top, textvariable = self.jakaGielda)
-        self.com['values'] = ('BINANCE',
+        self.com['values'] = ('',
+                              'BINANCE',
                               'BITBAY')
         self.com.current(0)
+        self.com.bind("<<ComboboxSelected>>", self.wybor_waluty)
         self.com.place(x= 200, y = 42)
         
-        self.linia_3 = tk.Label(self.top, text = "Wybież kryptowalutę:")
-        self.linia_3.configure(font = (self.krojCzcionki, self.rozmiarCzcionki), bg = self.black, fg = self.jNiebieski)
-        self.linia_3.place(x = 10, y = 72)
-        
-        
-
-        self.readBinance = requests.get("https://fapi.binance.com/fapi/v1/ticker/bookTicker")
-        self.taskBinance = self.readBinance.json()
-        self.dic = (self.taskBinance)
-        
-        self.yBinance = len(self.dic)
-
-
-        for x in range(0, self.yBinance):
-            self.idBinance = (x)
-            self.symbolBinance = self.dic[x]["symbol"]
-            
-            self.danaBinance = [self.idBinance,self.symbolBinance]
-            self.list.append(self.danaBinance)
-            
-        
-            
-        self.combo3 = ttk.Combobox(self.top, textvariable = self.jakaWalutaBinance)
-        self.combo3['values'] = (self.list)
-        self.combo3.current(0)
-        self.combo3.place(x= 200, y = 73)
-        
-        self.buttonZapisz = tk.Button(self.top, text = "zapisz ustawienia")
-        self.buttonZapisz.configure(command = self.zapisz_ustawienia)
-        self.buttonZapisz.place(x = 400, y = 71)
-            
-        
                                    
-        #self.top.mainloop() 
+        self.top.mainloop() 
         
         
     def zapisz_ustawienia(self):
@@ -457,13 +435,63 @@ class Program:
         self.button_zamknij.configure(command = self.exit_program)
         self.button_zamknij.place(x = 250, y = 205)
             
-    def zapisz_ustawienia_gielda(self):
-        pass
+    def wybor_waluty(self, x_dana):
+        self.przeslij = self.jakaGielda.get()
+        print(self.przeslij)
+        if self.przeslij == "BINANCE":
+            self.linia_3 = tk.Label(self.top, text = "Wybież kryptowalutę:")
+            self.linia_3.configure(font = (self.krojCzcionki, self.rozmiarCzcionki), bg = self.black, fg = self.jNiebieski)
+            self.linia_3.place(x = 10, y = 72)
         
-    def zapisz_ustawienia_waluta(self):
-        pass
-    
-    
-        #self.top.mainloop()
+        
+            self.readBinance = requests.get("https://fapi.binance.com/fapi/v1/ticker/bookTicker")
+            self.taskBinance = self.readBinance.json()
+            self.dic = (self.taskBinance)
+            
+            self.yBinance = len(self.dic)
+                
+            for x in range(0, self.yBinance):
+                self.idBinance = (x)
+                self.symbolBinance = self.dic[x]["symbol"]
+                
+                self.danaBinance = [self.idBinance,self.symbolBinance]
+                self.list.append(self.danaBinance)
+                          
+            self.combo3 = ttk.Combobox(self.top, textvariable = self.jakaWalutaBinance)
+            self.combo3['values'] = (self.list)
+            self.combo3.current(0)
+            self.combo3.place(x= 200, y = 73)
+            
+            self.buttonZapisz = tk.Button(self.top, text = "zapisz ustawienia")
+            self.buttonZapisz.configure(command = self.zapisz_ustawienia)
+            self.buttonZapisz.place(x = 400, y = 71)
+        elif self.przeslij == "BITBAY":
+            self.linia_3 = tk.Label(self.top, text = "Wybież kryptowalutę:")
+            self.linia_3.configure(font = (self.krojCzcionki, self.rozmiarCzcionki), bg = self.black, fg = self.jNiebieski)
+            self.linia_3.place(x = 10, y = 72)
+            
+            
+                            
+            self.combo4 = ttk.Combobox(self.top, textvariable = self.jakaWalutaBitbay)
+            self.combo4['values'] = (self.listBitbay)
+            self.combo4.current(0)
+            self.combo4.place(x= 200, y = 73)
+            
+            self.buttonZapisz = tk.Button(self.top, text = "zapisz ustawienia")
+            self.buttonZapisz.configure(command = self.zapisz_ustawienia)
+            self.buttonZapisz.place(x = 400, y = 71)
+        else:
+            self.linia4 = tk.Label(self.top, text = "Oj co poszło nie tak!")
+            self.linia4.configure(font = (self.krojCzcionki, 7), bg = self.black, fg = self.red)
+            self.linia4.place(x = 10, y = 72)
+            
+            self.linia5 = tk.Label(self.top, text = "Zamknij program i otwórz jeszcze raz")
+            self.linia5.configure(font = (self.krojCzcionki, 7), bg = self.black, fg = self.white)
+            self.linia5.place(x = 20, y = 72)
+            
+            self.buttonZapisz = tk.Button(self.top, text = "zamknij program")
+            self.buttonZapisz.configure(command = self.exit_program)
+            self.buttonZapisz.place(x = 400, y = 71)
+
         
 prog = Program()
