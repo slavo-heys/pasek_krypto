@@ -3,12 +3,11 @@
 """
 Created on Fri Aug 19 09:08:06 2021
 
-"Pasek Krypto" versja 1.3 Linux
+>>Pasek Krypto<< versja 1.3 Linux
 
 @author: slavo heys 
 @email: ilodz24hd@gmail.com
 """
-
 import requests
 import tkinter as tk
 
@@ -54,7 +53,8 @@ class Program:
 
 # %% czcionka
         self.krojCzcionki = "Comic Sans"  # Times New Roman, Tahoma, Comic Sans
-        self.rozmiarCzcionki = 12
+        self.czcionkaLinux = "Tahoma"
+        self.rozmiarCzcionki = 11
 # %% definicja kolorów
         self.red = "#FF4500"
         self.green = "#00FF00"
@@ -62,72 +62,60 @@ class Program:
         self.black = "black"
 
 # %% otwarcie okna programu
-        self.window.geometry("440x58+5+5")
+        self.window.geometry("340x58+5+5")
         self.window.configure(background="black")
         self.window.overrideredirect(1)
 
-# %% ramka okna programu
+# %% ramka okna binance
         self.rama = tk.LabelFrame(self.window, padx=5, pady=5)
         self.rama.configure(background="black")
         self.rama.pack(fill="both", expand="yes")
 
-        self.button2 = tk.Button(self.rama, text="Ustawienia", font=(
-            "Arial", 6), bg=self.white, fg=self.black, command=self.ustawienia)
-        self.button2.grid(row=0, column=7, sticky="w")
+        # self.button2 = tk.Button(self.rama, text="Ustawienia", font=("Arial", 6), bg=self.white, fg=self.black, command=self.ustawienia)
+        # self.button2.place(x = 200, y = 0)
 
-        self.nazwaWaluty = tk.Label(self.rama, bg=self.black)
-        self.nazwaWaluty.grid(row=0, column=0, sticky="w")
+        self.nazwaWaluty = tk.Label(self.rama, text = "BTC/USDT", font = (self.czcionkaLinux, 6),bg=self.black, fg = self.white)
+        self.nazwaWaluty.place(x = 0, y = 0)
+        
+        self.nazwaGieldy = tk.Label(self.rama, text = "BINANCE", font = (self.czcionkaLinux, 5), bg = self.black, fg = "gold")
+        self.nazwaGieldy.place(x = 2, y = 12)
 
-        self.przerwa = tk.Label(self.rama, text="Binance", font=(
-            "Arial", 8), bg=self.black, fg="#C0C0C0")
-        self.przerwa.grid(row=0, column=1, sticky="w")
-
-        self.liniaBidSymbol = tk.Label(self.rama, text="BID:", font=(
-            "Arial", 8), bg=self.black, fg="#FFD700")
-        self.liniaBidSymbol.grid(row=0, column=2, sticky="w")
+        self.liniaBidSymbol = tk.Label(self.rama, text="BID:", font=("Arial", 8), bg=self.black, fg="teal")
+        self.liniaBidSymbol.place(x = 50, y = 2)
 
         self.liniaBidBtc = tk.Label(self.rama, bg=self.black)
-        self.liniaBidBtc.grid(row=0, column=3, sticky="w")
-
-        self.przerwa1 = tk.Label(self.rama, text=" - ", bg=self.black)
-        self.przerwa1.grid(row=0, column=4)
+        self.liniaBidBtc.place(x = 70, y = 0)
 
         self.liniaAskSymbol = tk.Label(self.rama, text="ASK:", font=(
-            "Arial", 8), bg=self.black, fg="#FFD700")
-        self.liniaAskSymbol.grid(row=0, column=5, sticky="w")
+            "Arial", 8), bg=self.black, fg="teal")
+        self.liniaAskSymbol.place(x = 150, y = 2)
 
         self.liniaAskBtc = tk.Label(self.rama, bg=self.black)
-        self.liniaAskBtc.grid(row=0, column=6, sticky="w")
+        self.liniaAskBtc.place(x = 178, y = 0)
 
 # %% ramka okna bitbay
-        self.button1 = tk.Button(self.rama, text="   Exit   ", font=(
-            "Arial", 6), bg=self.white, fg=self.black, command=self.exit)
-        self.button1.grid(row=1, column=7, sticky="w")
+        self.button1 = tk.Button(self.rama, text="   Exit   ", font=("Arial", 6), bg=self.black, fg=self.black, command=self.exit)
+        self.button1.place(x = 270, y = 24)
 
-        self.nazwaBitbay = tk.Label(self.rama, text="BTCUSD", font=(
-            self.krojCzcionki, self.rozmiarCzcionki), bg=self.black, fg=self.white)
-        self.nazwaBitbay.grid(row=1, column=0, sticky="w")
+        self.nazwaBitbay = tk.Label(self.rama, text="BTC/USD", font=(self.czcionkaLinux, 6), bg=self.black, fg=self.white)
+        self.nazwaBitbay.place(x = 0, y = 25)
 
-        self.przerwaBitbay = tk.Label(self.rama, text="BitBay", font=(
-            "Arial", 8), bg=self.black, fg="#C0C0C0")
-        self.przerwaBitbay.grid(row=1, column=1, sticky="w")
+        self.przerwaBitbay = tk.Label(self.rama, text="BitBay", font=(self.czcionkaLinux, 5), bg=self.black, fg="dodgerblue")
+        self.przerwaBitbay.place(x = 4, y = 37)
 
         self.liniaBidSymbolBitbay = tk.Label(self.rama, text="BID:", font=(
-            "Arial", 8), bg=self.black, fg="#FFD700")
-        self.liniaBidSymbolBitbay.grid(row=1, column=2, sticky="w")
+            "Arial", 8), bg=self.black, fg="teal")
+        self.liniaBidSymbolBitbay.place(x = 50, y = 27)
 
         self.liniaBidBitbay = tk.Label(self.rama, bg=self.black)
-        self.liniaBidBitbay.grid(row=1, column=3, sticky="w")
-
-        self.przerwa1Bitbay = tk.Label(self.rama, text=" - ", bg=self.black)
-        self.przerwa1Bitbay.grid(row=1, column=4)
+        self.liniaBidBitbay.place(x = 70, y = 25)
 
         self.liniaAskSymbolBitbay = tk.Label(self.rama, text="ASK:", font=(
-            "Arial", 8), bg=self.black, fg="#FFD700")
-        self.liniaAskSymbolBitbay.grid(row=1, column=5, sticky="w")
+            "Arial", 8), bg=self.black, fg="teal")
+        self.liniaAskSymbolBitbay.place(x = 150, y = 27)
 
         self.liniaAskBitbay = tk.Label(self.rama, bg=self.black)
-        self.liniaAskBitbay.grid(row=1, column=6, sticky="w")
+        self.liniaAskBitbay.place(x = 178, y = 25)
 
 
 # %% Wywołanie definicji
@@ -164,8 +152,6 @@ class Program:
             self.cenaBidBtc.set(self.lista[0][1])
             self.cenaAskBtc.set(self.lista[0][2])
 
-            self.nazwaWaluty.configure(text=self.symbol.get(), font=(
-                self.krojCzcionki, self.rozmiarCzcionki), fg=self.white)
             self.liniaBidBtc.configure(text=self.cenaBidBtc.get(), font=(
                 self.krojCzcionki, self.rozmiarCzcionki), fg=self.white)
             self.liniaAskBtc.configure(text=self.cenaAskBtc.get(), font=(
@@ -186,18 +172,12 @@ class Program:
             self.nowyAsk = float(self.nowyAskBtc.get())
 
             if self.nowyBid > self.staryBid:
-                self.nazwaWaluty.configure(text=self.symbol.get(), font=(
-                    self.krojCzcionki, self.rozmiarCzcionki), fg=self.white)
                 self.liniaBidBtc.configure(text=self.nowyBid, font=(
                     self.krojCzcionki, self.rozmiarCzcionki), fg="#FF0000")
             elif self.nowyBid < self.staryBid:
-                self.nazwaWaluty.configure(text=self.symbol.get(), font=(
-                    self.krojCzcionki, self.rozmiarCzcionki), fg=self.white)
                 self.liniaBidBtc.configure(text=self.nowyBid, font=(
                     self.krojCzcionki, self.rozmiarCzcionki), fg="#00FF00")
             else:
-                self.nazwaWaluty.configure(text=self.symbol.get(), font=(
-                    self.krojCzcionki, self.rozmiarCzcionki), fg=self.white)
                 self.liniaBidBtc.configure(text=self.nowyBid, font=(
                     self.krojCzcionki, self.rozmiarCzcionki), fg="#C0C0C0")
 
